@@ -1,0 +1,288 @@
+- vars:
+    question: "What is CSTA?"
+    ground_truth: |
+      CSTA (Computer Supported Telecommunications Applications) is a standard that specifies
+      programmatic access to and control of telecommunication infrastructure. It enables software to handle tasks ranging 
+      from initiating and receiving simple telephone calls to managing large, multi-site voice and video collaborations. 
+      CSTA is standardized by Ecma/ISO; its core operational model (objects, services, events) is defined in ECMA-269.
+
+- vars:
+    question: "Which standards defines CSTA?"
+    ground_truth: |
+      CSTA is standardized in a number of Ecma/ISO specifications. The core operation model and 
+      the semantics of the CSTA objects, services and events are defined in ECMA-269. 
+      These CSTA features are defined in an abstract and platform independent way so 
+      that they can be adapted to various programming environments. 
+      In addition, CSTA is accompanied with several standardized programming syntax. Some examples:
+      - ECMA-285 defines the ASN.1 binding to CSTA
+      - ECMA-323 defines the extensible markup language (XML) binding to CSTA (commonly known as CSTA-XML)
+      - ECMA-348 defines the Web Service Description Language (WSDL) binding
+
+- vars:
+    question: "What is a device in CSTA?"
+    ground_truth: |
+      Devices that are visible or controllable via CSTA are known as CSTA Devices.
+      CSTA Devices can be either physical devices (such as buttons, lines, trunks, and stations) or logical
+      devices (such as groups of devices, pilot numbers, and automatic call distribution groups). CSTA Devices
+      have attributes that allow CSTA to monitor and manipulate them.
+
+      A Device is a logical or physical entity that models the terminal point of a communication link. A
+      CSTA device can receive or initiate communications. A telephone, a fax machine, an automatic call distributor, a
+      predictive dialer, or a voice mail box are all examples of CSTA devices. In the new edition, speech recognizers, natural
+      language parsers and speech synthesizers are introduced as a new class of devices for automatic speech services.
+
+- vars:
+    question: "What is a connection in CSTA?"
+    ground_truth: |
+      A connection is a relationship in a switching sub-domain between a CSTA Device, and a call in which that
+      CSTA Device is involved. This connection relationship can be both observed and manipulated.
+
+- vars:
+    question: "What is the format of ConnectionID?"
+    ground_truth: |
+      The ConnectionID is generally comprised of the following parameters:
+      1. callID - Character String - An identifier used by the switching function to represent a valid call.
+      2. deviceID - DeviceID - An identifier which is used to represent a device in the switching subdomain.
+
+- vars:
+    question: "Which parameters has the Answer Call service?"
+    ground_truth: |
+      Answer Call Service Request has the following parameters:
+      | Parameter Name | Type | M/O/C | Description |
+      | ----------- | ----------- | ----------- | ----------- |
+      | callToBeAnswered | ConnectionID | M | Specifies the connection to be answered. |
+      | correlatorData | CorrelatorData | O | Specifies the correlator data to associate with the call. |
+      | userData | UserData | O | Specifies the user data to be sent to parties in the call. |
+      | security | CSTASecurityData | O | Specifies timestamp information, message sequence number, and security information. |
+      | privateData | CSTAPrivateData | O | Specifies non-standardized information. |
+
+- vars:
+    question: "List the Call Control Events and give a short description about them."
+    ground_truth: |
+      Call Control Events Summary:
+      | Call Control Event | Description |
+      | ----------- | ----------- |
+      | Bridged | Indicates that an appearance at a shared bridged device configuration has been placed into an inactive mode (i.e., queued state). |
+      | Call Cleared | Indicates that all devices have been removed from an existing call. |
+      | Conferenced | Indicates that the conferencing device has conferenced itself or another device with an existing call. |
+      | Connection Cleared | Indicates that a device in a call has disconnected or dropped out from a call. |
+      | Delivered | Indicates that a call is being presented to a device in either the Ringing or Entering Distribution modes of the alerting state. |
+      | Digits Dialled | Indicates that a call or feature is being attempted from a device and that a portion of the dialling sequence has been completed. |
+      | Diverted | Indicates that a call has been diverted from a device. |
+      | Established | Indicates that a device has answered or has been connected to a call. |
+      | Failed | Indicates that a call cannot be completed and/or a connection has entered the Fail state. |
+      | Held | Indicates that an existing call has been put on hold. |
+      | Network Capabilities Changed | Indicates that a situation occurred during a call's progress in a public or private network that modifies its signalling capability (i.e., inter-networking). |
+      | Network Reached | Indicates that a call has been connected to an external network using a Network Interface Device (e.g., trunk, CO Line). |
+      | Offered | Indicates that a call is in a pre-delivery state at a device (prior to ringing indication or delivering ringback, for example). |
+      | Originated | Indicates that a call is being attempted from a device. |
+      | Queued | Indicates that a call has been queued. |
+      | Retrieved | Indicates that a previously held call has been retrieved. |
+      | Service Initiated | Indicates that a device has gone off-hook for service or is being prompted to go off-hook. |
+      | Transferred | Indicates that an existing call has been transferred to another device and that the device transferring the call has been dropped from the call. |
+
+- vars:
+    question: "List the possible system statuses reported by the PBX"
+    ground_truth: |
+      initializing, enabled, normal, messagesLost, disabled, partiallyDisabled, overloadImminent, overloadReached, overloadRelieved
+
+- vars:
+    question: "What is the purpose of Clear Connection service?"
+    ground_truth: |
+      The Clear Connection service releases a specific device from a call. In the case of a two-party call, this
+      may result in the call being torn down. In the case of a conference call, this results in the specific party
+      being removed from the conference. This service can also be used to inactivate a bridged appearance.
+
+- vars:
+    question: "What is the purpose of Deflect Call service?"
+    ground_truth: |
+      The Deflect Call service allows the computing function to divert a call to one or more destinations that
+      may be inside or outside the switching sub-domain.
+      Deflecting a call to multiple devices may result in multiple devices being involved in the call (e.g.
+      simultaneously alerted). Once a call is answered at any one of these destination devices all other
+      destination devices are cleared from the call.
+
+- vars:
+    question: "How to make a basic call?"
+    ground_truth: |
+      Send a Make Call request to the calling device to set up a call between a calling device and a
+      called device.
+      The service creates a new call and establishes an initiated or connected connection with the calling
+      device. The Make Call service assigns a ConnectionID to the calling device and returns it in the positive
+      acknowledgement. If the devices are monitored, the Initiated and Originated (or Network Reached) event is sent from 
+      the calling device if the call is started, and Delivered event from both device, if called device starts ringing.
+
+- vars:
+    question: "How do you start and stop a monitor on a device?"
+    ground_truth: |
+      The Monitor Start service is used to establish a monitor. The computing function indicates the monitor
+      object that it is interested in observing, the type of monitoring, the type of calls to monitor, and the list of
+      events that it is interested in.
+      Once the Monitor Start service request has been validated by the switching function, the switching
+      function provides a positive acknowledgement that includes a Monitor Cross Reference Identifier that
+      uniquely identifies the monitor. The switching function also provides this identifier as a parameter in all
+      events associated with this monitor. The computing function can use this identifier to correlate events to
+      the particular Monitor Start service that established the monitor. (This identifier is also used in the Monitor
+      Stop and Change Monitor Filter services.)
+      The Monitor Stop service is used to stop an established monitor. When a Monitor Stop service has been
+      sent by the computing function, the switching function stops the monitor, releases the Monitor Cross
+      Reference Identifier, and no longer provides events to the computing function.
+
+- vars:
+    question: "How do Snapshot Call service work?"
+    ground_truth: |
+      The Snapshot Call service provides information about the devices participating in a specified call. The
+      information provided in the positive response includes device identifiers, their connections in the call, 
+      and local connection states of the devices in the call as well as call related information.     
+
+- vars:
+    question: "How does single-step transfer differ from consultation transfer?"
+    ground_truth: |
+      The Transfer Call service transfers a call held at a device to an active (consulting) call at the same device.
+
+      The Single Step Transfer Call service transfers an existing connection at a device to another device.
+      This transfer is performed in a single-step, that is the device doing the transfer does not have to place the
+      existing call on hold before issuing the Single Step Transfer Call service.
+
+- vars:
+    question: "Show me an xml example of Established event!"
+    ground_truth: |    
+      An example of a valid Established event:
+      <?xml version="1.0" encoding="utf-8"?>
+      <EstablishedEvent xmlns="http://www.ecma-international.org/standards/ecma-323/csta/ed5">
+        <monitorCrossRefID>0</monitorCrossRefID>
+        <establishedConnection>
+          <callID>32882</callID>
+          <deviceID>sip:1006@192.168.26.12:5060</deviceID>
+        </establishedConnection>
+        <answeringDevice>
+          <deviceIdentifier>sip:1006@192.168.26.12:5060</deviceIdentifier>
+        </answeringDevice>
+        <callingDevice>
+          <deviceIdentifier>sip:1005@192.168.26.12</deviceIdentifier>
+        </callingDevice>
+        <calledDevice>
+          <deviceIdentifier>sip:1006@192.168.26.12:5060</deviceIdentifier>
+        </calledDevice>
+        <lastRedirectionDevice>
+          <notKnown />
+        </lastRedirectionDevice>
+        <localConnectionInfo>connected</localConnectionInfo>
+        <cause>normal</cause>
+      </EstablishedEvent>
+
+- vars:
+    question: "Show me the ASN.1 representation of Consultation Call request!"
+    ground_truth: |
+      ASN.1 encodig of Consultation call request:
+
+      CSTA-consultation-call
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) consultation-call( 7) }
+      DEFINITIONS ::=
+      BEGIN
+      IMPORTS
+      OPERATION, ERROR FROM Remote-Operations-Information-Objects
+        {joint-iso-itu-t remote-operations(4) informationObjects(5) version1(0) }
+      
+      -- Data Types --
+      universalFailure FROM CSTA-error-definition
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) error-definition( 120) }
+      DeviceID FROM CSTA-device-identifiers
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) device-identifiers( 123) }
+      ConnectionID FROM CSTA-call-connection-identifiers
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) call-connection-identifiers( 124) }
+      AccountInfo, AuthCode, CorrelatorData, UserData FROM CSTA-device-feature-types
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) device-feature-types( 127) }
+      CSTACommonArguments FROM CSTA-extension-types
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) extension-types( 129) }
+      CallCharacteristics, ConsultOptions, CallLinkageData FROM CSTA-call-control
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) call-control( 130) }
+      SubjectOfCall,LanguagePreferences FROM CSTA-device-feature-types
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) device-feature-types( 127) }
+      ConnectionInformation, MediaCallCharacteristics FROM CSTA-media-services
+        { iso( 1) identified-organization( 3) icd-ecma( 12)
+          standard( 0) csta3( 285) media-services( 136) };
+      
+      consultationCall OPERATION ::=
+      { ARGUMENT ConsultationCallArgument
+        RESULT ConsultationCallResult
+        ERRORS {universalFailure }
+        CODE local: 7 }
+
+      ConsultationCallArgument ::= SEQUENCE
+      { existingCall [0] IMPLICIT ConnectionID,
+        consultedDevice [1] DeviceID,
+        connectionReservation [2] IMPLICIT BOOLEAN OPTIONAL,
+        accountCode [3] IMPLICIT AccountInfo OPTIONAL,
+        authCode [4] IMPLICIT AuthCode OPTIONAL,
+        correlatorData [5] IMPLICIT CorrelatorData OPTIONAL,
+        userData [6] IMPLICIT UserData OPTIONAL,
+        callCharacteristics [7] IMPLICIT CallCharacteristics OPTIONAL,
+        mediaCallCharacteristics [8] IMPLICIT MediaCallCharacteristics OPTIONAL,
+        callingConnectionInfo [9] IMPLICIT ConnectionInformation OPTIONAL,
+        consultOptions [10]IMPLICIT ConsultOptions DEFAULT unrestricted,
+        subjectOfCall [11]IMPLICIT SubjectOfCall OPTIONAL,
+        languagePreferences [12] IMPLICIT LanguagePreferences OPTIONAL,
+        extensions CSTACommonArguments OPTIONAL }
+
+      ConsultationCallResult ::= SEQUENCE
+      { initiatedCall ConnectionID,
+        mediaCallCharacteristics [0] IMPLICIT MediaCallCharacteristics OPTIONAL,
+        initiatedCallInfo [1] IMPLICIT ConnectionInformation OPTIONAL,
+        callLinkageData [2] IMPLICIT CallLinkageData OPTIONAL,
+        extensions CSTACommonArguments OPTIONAL }
+      END -- of CSTA-consultation-call
+
+- vars:
+    question: "How to implement CSTA-XML via TCP socket?"
+    ground_truth: |
+      Methods to implement CSTA XML over TCP is described in ECMA-323 Annex J
+      Each XML instance message that is sent across a TCP/IP stream is preceded by a message prefix. This prefix
+      consists of a two byte header and a two byte length component.
+      The header indicates the format of the XML instance message. The following header formats
+      are defined:
+      - 00 - indicates that the message body consists of a CSTA XML instance message without SOAP. 
+      The message body consists of an Invoke ID component followed by an XML instance message.
+      - 01 - indicates that the message body consists of a SOAP enveloped CSTA XML instance message
+      
+      The length is defined as the length of the full message, i.e., the length of the message body plus the length
+      of the message prefix. The byte ordering is most significant byte first. 
+
+      There is one XML instance message (CSTA service request, service response, or event) per TCP packet.
+
+      The XML instance message is encoded as ASCII text. White space and line feeds are allowed (and ignored)
+      between XML statements.
+
+- vars:
+    question: "How to establish a CSTA Application Session with an uaCSTA capable SIP phone?"
+    ground_truth: |
+      Before ECMA-323 service requests are sent to a SIP UA, a CSTA application session must be established between the application and the SIP UA.
+      ECMA-269 specifies a number of options for establishing a CSTA application session. This mechanism uses the "Implicit Association created using CSTA Request System Status"
+      option as described in 7.2 of ECMA-269.
+
+      The application creates an application session by establishing a SIP dialog with the user agent using a SIP INVITE method that includes a Content-Disposition header 
+      indicating "signal" and "handling=required" to mandate support for the application/csta+xml MIME type.
+      An ECMA-323 Request System Status service request is included in the SIP INVITE body with the Content-Type application/csta+xml.
+      The Request-URI header in the SIP INVITE could specify a particular user agent instance (e.g. globally unique contact URI) or a SIP Address-of-Record URI 
+      (a user's published address). 
+      If the UA supports this MIME type and can establish this application session, it responds to this SIP Invite with a 200 OK
+      that includes an ECMA-323 Request System Status service response in the message body. The application sends a 
+      SIP ACK to complete the dialog establishment.
+      If the UA does not support this MIME type, the SIP UA must provide a 415 (Unsupported Media Type) response as defined in IETF RFC 3261.
+      The application-control session exists for as long as the application is interested in controlling the SIP user agent which might, 
+      for some deployments, persist as long as the user agent is operational.
+      Once the application-control session is no longer needed, it can be terminated using the SIP BYE method.
+
+- vars:
+    question: "What is the capital of Assyria?"
+  assert:
+    - type: equals
+      value: "Sorry, I don't know."

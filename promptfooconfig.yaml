@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Learn more about building a configuration: https://promptfoo.dev/docs/configuration/guide
+
+description: "ICT Assistant prompt evaluator"
+
+providers:
+  - id: http
+    config:
+      url: 'http://localhost:3000/api/chat'
+      method: 'POST'
+      headers:
+        'Content-Type': 'application/json'
+        'Accept': 'application/json'
+      body:
+        id: 'stev-{{sessionId}}'
+        messages:
+          - role: 'user'
+            parts:
+              - type: 'text'
+                text: '{{prompt}}'
+      transformResponse: 'json.answer'
+
+prompts:
+  - '{{ question }}'
+
+tests:
+  file://datasets.yaml
+
+defaultTest:    
+  options:
+    provider: google:gemini-2.5-flash
+    transformVars: '{ ...vars, sessionId: context.uuid }'
+  assert:
+    - type: llm-rubric
+      value: |        
+        Evaluate if the generated response is factually correct and contains the same information as the ground truth.
+        Consider the response correct if:
+        1. It contains the key information from the ground truth
+        2. It doesn't contradict the ground truth
+        3. It provides accurate information even if phrased differently
+
+        Ground truth: {{ground_truth}}
+
+outputPath: 'output/latest_results.html'
