@@ -22,7 +22,7 @@ This project provides an automated testing suite that evaluates how well an ICT 
 
 ## Requirements
 
-- **Node.js** (v16 or higher recommended)
+- **Node.js** (v20 or higher recommended)
 - **npm** or **yarn** package manager
 - **promptfoo** CLI tool
 - **ICT Assistant API** running on `http://localhost:3000/api/chat`
@@ -30,7 +30,13 @@ This project provides an automated testing suite that evaluates how well an ICT 
 
 ## Installation
 
-1. **Install promptfoo globally**:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/szentesik/ict_assistant_single_turn_evaluation.git
+   cd ict_assistant_single_turn_evaluation
+   ```
+
+2. **Install promptfoo globally (if not already installed)**:
    ```bash
    npm install -g promptfoo
    ```
@@ -38,11 +44,6 @@ This project provides an automated testing suite that evaluates how well an ICT 
    Or using yarn:
    ```bash
    yarn global add promptfoo
-   ```
-
-2. **Clone or navigate to this project directory**:
-   ```bash
-   cd ict_assistant_single_turn_evaluation
    ```
 
 3. **Set up environment variables** (if needed):
@@ -74,13 +75,16 @@ Run all tests defined in `datasets.yaml`:
 promptfoo eval
 ```
 
+Output file can be customized with *--output* parameter:
+
+```bash
+promptfoo eval --output output/results-$(Get-Date -Format "yyyyMMdd_hhmmss").html
+```
+
 ### View Results
 
-The evaluation generates an HTML report at `output/latest_results.html`. Open this file in your browser to see:
-- Pass/fail status for each test case
-- Response comparisons
-- Detailed evaluation scores
-- Error messages (if any)
+Run `promptfoo view` to use the local web viewer, or
+open the HTML report generated at `output/latest_results.html`.
 
 ### Configuration
 
@@ -169,9 +173,6 @@ To add new test cases:
 3. Include both the question and accurate ground truth
 4. Run `promptfoo eval` to verify the new test case
 
-## License
-
-This project is part of a coursework assignment for ICT Assistant evaluation.
 
 ## References
 
