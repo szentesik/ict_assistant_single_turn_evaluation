@@ -19,7 +19,7 @@ providers:
             parts:
               - type: 'text'
                 text: '{{prompt}}'
-      transformResponse: 'json.answer'
+      transformResponse: 'json.error ? `ERROR: ${json.error}` : json.answer'
 
 prompts:
   - '{{ question }}'
