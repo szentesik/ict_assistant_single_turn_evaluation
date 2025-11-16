@@ -29,7 +29,7 @@ tests:
 
 defaultTest:    
   options:
-    provider: google:gemini-2.5-flash
+    provider: google:gemini-2.5-pro
     transformVars: '{ ...vars, sessionId: context.uuid }'
   assert:
     - type: llm-rubric
@@ -41,5 +41,11 @@ defaultTest:
         3. It provides accurate information even if phrased differently
 
         Ground truth: {{ground_truth}}
+
+        Mark test passed if score is not below the threshold {{threshold}}.
+
+evaluateOptions:
+  maxConcurrency: 2  
+  showProgressBar: true
 
 outputPath: 'output/latest_results.html'

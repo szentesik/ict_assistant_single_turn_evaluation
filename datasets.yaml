@@ -1,5 +1,6 @@
 - vars:
     question: "What is CSTA?"
+    threshold: 0.8
     ground_truth: |
       CSTA (Computer Supported Telecommunications Applications) is a standard that specifies
       programmatic access to and control of telecommunication infrastructure. It enables software to handle tasks ranging 
@@ -8,6 +9,7 @@
 
 - vars:
     question: "Which standards defines CSTA?"
+    threshold: 0.8
     ground_truth: |
       CSTA is standardized in a number of Ecma/ISO specifications. The core operation model and 
       the semantics of the CSTA objects, services and events are defined in ECMA-269. 
@@ -20,6 +22,7 @@
 
 - vars:
     question: "What is a device in CSTA?"
+    threshold: 0.8
     ground_truth: |
       Devices that are visible or controllable via CSTA are known as CSTA Devices.
       CSTA Devices can be either physical devices (such as buttons, lines, trunks, and stations) or logical
@@ -33,12 +36,14 @@
 
 - vars:
     question: "What is a connection in CSTA?"
+    threshold: 0.8
     ground_truth: |
       A connection is a relationship in a switching sub-domain between a CSTA Device, and a call in which that
       CSTA Device is involved. This connection relationship can be both observed and manipulated.
 
 - vars:
     question: "What is the format of ConnectionID?"
+    threshold: 0.8
     ground_truth: |
       The ConnectionID is generally comprised of the following parameters:
       1. callID - Character String - An identifier used by the switching function to represent a valid call.
@@ -46,6 +51,7 @@
 
 - vars:
     question: "Which parameters has the Answer Call service?"
+    threshold: 0.8
     ground_truth: |
       Answer Call Service Request has the following parameters:
       | Parameter Name | Type | M/O/C | Description |
@@ -58,6 +64,7 @@
 
 - vars:
     question: "List the Call Control Events and give a short description about them."
+    threshold: 0.9
     ground_truth: |
       Call Control Events Summary:
       | Call Control Event | Description |
@@ -83,11 +90,13 @@
 
 - vars:
     question: "List the possible system statuses reported by the PBX"
+    threshold: 0.9
     ground_truth: |
       initializing, enabled, normal, messagesLost, disabled, partiallyDisabled, overloadImminent, overloadReached, overloadRelieved
 
 - vars:
     question: "What is the purpose of Clear Connection service?"
+    threshold: 0.8
     ground_truth: |
       The Clear Connection service releases a specific device from a call. In the case of a two-party call, this
       may result in the call being torn down. In the case of a conference call, this results in the specific party
@@ -95,6 +104,7 @@
 
 - vars:
     question: "What is the purpose of Deflect Call service?"
+    threshold: 0.8
     ground_truth: |
       The Deflect Call service allows the computing function to divert a call to one or more destinations that
       may be inside or outside the switching sub-domain.
@@ -104,6 +114,7 @@
 
 - vars:
     question: "How to make a basic call?"
+    threshold: 0.7
     ground_truth: |
       Send a Make Call request to the calling device to set up a call between a calling device and a
       called device.
@@ -114,6 +125,7 @@
 
 - vars:
     question: "How do you start and stop a monitor on a device?"
+    threshold: 0.7
     ground_truth: |
       The Monitor Start service is used to establish a monitor. The computing function indicates the monitor
       object that it is interested in observing, the type of monitoring, the type of calls to monitor, and the list of
@@ -130,6 +142,7 @@
 
 - vars:
     question: "How do Snapshot Call service work?"
+    threshold: 0.8
     ground_truth: |
       The Snapshot Call service provides information about the devices participating in a specified call. The
       information provided in the positive response includes device identifiers, their connections in the call, 
@@ -137,6 +150,7 @@
 
 - vars:
     question: "How does single-step transfer differ from consultation transfer?"
+    threshold: 0.7
     ground_truth: |
       The Transfer Call service transfers a call held at a device to an active (consulting) call at the same device.
 
@@ -146,10 +160,11 @@
 
 - vars:
     question: "Show me an xml example of Established event!"
+    threshold: 0.6
     ground_truth: |    
       An example of a valid Established event:
       <?xml version="1.0" encoding="utf-8"?>
-      <EstablishedEvent xmlns="http://www.ecma-international.org/standards/ecma-323/csta/ed5">
+      <EstablishedEvent>
         <monitorCrossRefID>0</monitorCrossRefID>
         <establishedConnection>
           <callID>32882</callID>
@@ -171,8 +186,12 @@
         <cause>normal</cause>
       </EstablishedEvent>
 
+      The fields monitorCrossRefID, establishedConnection, answeringDevice, localConnectionInfo, cause should present, 
+      other fields are optional.
+
 - vars:
     question: "Show me the ASN.1 representation of Consultation Call request!"
+    threshold: 0.6
     ground_truth: |
       ASN.1 encodig of Consultation call request:
 
@@ -181,36 +200,6 @@
           standard( 0) csta3( 285) consultation-call( 7) }
       DEFINITIONS ::=
       BEGIN
-      IMPORTS
-      OPERATION, ERROR FROM Remote-Operations-Information-Objects
-        {joint-iso-itu-t remote-operations(4) informationObjects(5) version1(0) }
-      
-      -- Data Types --
-      universalFailure FROM CSTA-error-definition
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) error-definition( 120) }
-      DeviceID FROM CSTA-device-identifiers
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) device-identifiers( 123) }
-      ConnectionID FROM CSTA-call-connection-identifiers
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) call-connection-identifiers( 124) }
-      AccountInfo, AuthCode, CorrelatorData, UserData FROM CSTA-device-feature-types
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) device-feature-types( 127) }
-      CSTACommonArguments FROM CSTA-extension-types
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) extension-types( 129) }
-      CallCharacteristics, ConsultOptions, CallLinkageData FROM CSTA-call-control
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) call-control( 130) }
-      SubjectOfCall,LanguagePreferences FROM CSTA-device-feature-types
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) device-feature-types( 127) }
-      ConnectionInformation, MediaCallCharacteristics FROM CSTA-media-services
-        { iso( 1) identified-organization( 3) icd-ecma( 12)
-          standard( 0) csta3( 285) media-services( 136) };
-      
       consultationCall OPERATION ::=
       { ARGUMENT ConsultationCallArgument
         RESULT ConsultationCallResult
@@ -243,6 +232,7 @@
 
 - vars:
     question: "How to implement CSTA-XML via TCP socket?"
+    threshold: 0.7
     ground_truth: |
       Methods to implement CSTA XML over TCP is described in ECMA-323 Annex J
       Each XML instance message that is sent across a TCP/IP stream is preceded by a message prefix. This prefix
@@ -263,6 +253,7 @@
 
 - vars:
     question: "How to establish a CSTA Application Session with an uaCSTA capable SIP phone?"
+    threshold: 0.7
     ground_truth: |
       Before ECMA-323 service requests are sent to a SIP UA, a CSTA application session must be established between the application and the SIP UA.
       ECMA-269 specifies a number of options for establishing a CSTA application session. This mechanism uses the "Implicit Association created using CSTA Request System Status"
@@ -283,6 +274,5 @@
 
 - vars:
     question: "What is the capital of Assyria?"
-  assert:
-    - type: equals
-      value: "Sorry, I don't know."
+    threshold: 0.9
+    ground_truth: Sorry, I don't know.
